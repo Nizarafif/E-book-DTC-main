@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Isi - DTC Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-[#F5F5F5]">
+  <main class="relative">
+    <aside id="leftSidebar" class="fixed top-0 left-0 bottom-0 w-64 bg-[#113939] text-white overflow-y-auto z-30">
+      <div class="p-4 border-b border-white/10">
+        <div class="flex items-start space-x-3">
+          <img src="/public/Cover Buku.svg" alt="Cover" class="w-24 h-32" />
+          <div>
+            <p class="text-xs opacity-80">KODE PRODUKSI/</p>
+            <p class="text-sm font-semibold leading-tight">Nama Buku</p>
+            <p class="text-[11px] opacity-90 mt-1">Nama Penyusun</p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="text-sm">
+        <button class="w-full px-4 py-3 hover:bg-white/10 border-b border-white/10 flex items-center text-left">
+          <img src="/public/Icon list.svg" alt="List" class="w-4 h-4 mr-2" />
+          <span>Daftar Isi</span>
+        </button>
+
+        <button class="w-full text-left px-4 py-3 hover:bg-white/10 border-b border-white/10">
+          01 PENGANTAR
+        </button>
+
+        <button class="w-full text-left px-4 py-3 hover:bg-white/10 border-b border-white/10">
+          02 Mindszet & Kiat
+        </button>
+
+        <button class="w-full text-left px-4 py-3 hover:bg-white/10 border-b border-white/10">
+          03 Daftar Isi
+        </button>
+
+        <div class="border-b border-white/10">
+          <button id="dropdownToggle"
+            class="w-full text-left px-4 py-3 hover:bg-white/10 flex justify-between items-center">
+            <span>04 Bab 1 • PENDAHULUAN</span>
+            <span id="arrow" class="transition-transform">▼</span>
+          </button>
+          <div id="dropdownMenu" class="hidden pl-8 pb-2">
+            <button class="w-full text-left py-2 hover:bg-white/10 border-b border-gray-600">1.1 Latar Belakang</button>
+            <button class="w-full text-left py-2 hover:bg-white/10  border-b border-gray-600">1.2 Tujuan</button>
+            <button class="w-full text-left py-2 hover:bg-white/10  border-b border-gray-600">1.3 Manfaat</button>
+          </div>
+        </div>
+      </nav>
+    </aside>
+
+    <script>
+      const toggle = document.getElementById('dropdownToggle');
+      const menu = document.getElementById('dropdownMenu');
+      const arrow = document.getElementById('arrow');
+      if (toggle && menu && arrow) {
+        toggle.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+          arrow.classList.toggle('rotate-180');
+        });
+      }
+    </script>
+
+    <section class="ml-64 min-h-screen flex flex-col relative">
+      <div class="bg-[#EAD6A8] text-[#113939] top-0 w-full fixed toolbar-shadow z-20">
+        <div class="flex items-center justify-between px-4 py-2">
+          <div class="flex items-center space-x-3">
+            <button onclick="history.back()" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10">
+              <span class="text-xl">&#x276E;</span>
+            </button>
+            <h1 class="font-semibold tracking-wide">DAFTAR ISI</h1>
+          </div>
+        </div>
+      </div>
+
+      <div id="readerContainer" class="w-full flex items-center justify-center mt-12">
+        <div id="daftarIsiTextRoot" class="relative bg-white w-full lg:w-[55%]">
+          <img src="/public/Daftar%20isi.png" alt="Daftar Isi" class="w-full h-full object-cover" />
+          <!-- Overlay teks untuk daftar isi -->
+          <div
+            class="absolute z-10 left-[130px] top-[185px] max-w-[520px] pr-4 text-[#113939] leading-relaxed text-base"
+            style="text-align: justify;">
+            <p class="mb-0"><span class="font-bold">01</span> Pengantar</p>
+            <p class="mb-0"><span class="font-bold">02</span> Mindset & Kiat</p>
+            <p class="mb-0"><span class="font-bold">03</span> Daftar isi</p>
+            <p class="mb-0"><span class="font-bold">04</span> Bab 1: Bekerja vs Berkarier</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating selection toolbar -->
+      <div id="selectionToolbarDI"
+        class="hidden fixed items-center space-x-1.5 bg-white/95 backdrop-blur-sm border border-black/10 rounded shadow px-2 py-1 z-30">
+        <button id="tbSearchDI" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Cari">
+          <img src="/public/Buttton_Search_Field.svg" alt="Cari" class="w-4 h-4" />
+        </button>
+        <button id="tbNoteDI" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10"
+          title="Catatan">
+          <img src="/public/Icon Notes.svg" alt="Catatan" class="w-4 h-4" />
+        </button>
+        <button id="tbHighlightDI" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10"
+          title="Highlight">
+          <img src="/public/Icon Highlight.svg" alt="Highlight" class="w-4 h-4" />
+        </button>
+        <button id="tbClearDI" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10"
+          title="Hapus Sorotan">
+          <img src="/public/out.svg" alt="Hapus" class="w-4 h-4" />
+        </button>
+      </div>
+
+      <div class="fixed bottom-0 left-64 right-0 bg-[#EAD6A8] toolbar-shadow z-20">
+        <div class="flex items-center px-4 py-1">
+          <div class="flex-1 flex items-center">
+            <a href="/mindset dan kiat.html"
+              class="flex items-center space-x-2 px-3 py-0.5 rounded hover:bg-black/10 text-[#113939]">
+              <img src="/public/Polygon 2.svg" alt="Prev" class="w-3 h-3 rotate-180" />
+              <span>Sebelumnya</span>
+            </a>
+          </div>
+
+          <div class="flex items-center justify-center space-x-8">
+            <button class="w-10 h-10 flex items-center justify-center hover:scale-110 transition" title="Cari">
+              <img src="/public/Buttton_Search_Field.svg" class="w-10 h-10" alt="Search" />
+            </button>
+            <button class="w-9 h-9 flex items-center justify-center hover:scale-110 transition" title="Catatan">
+              <img src="/public/Icon Notes.svg" class="w-7 h-7" alt="Notes" />
+            </button>
+            <button class="w-9 h-9 flex items-center justify-center hover:scale-110 transition" title="Highlight"
+              id="highlightBtn">
+              <img src="/public/Icon Highlight.svg" class="w-7 h-7" alt="Highlight" />
+            </button>
+          </div>
+
+          <div class="flex-1 flex items-center justify-end space-x-3 text-[#113939]">
+            <span id="pageIndicator" class="text-sm font-semibold">4/18</span>
+            <button id="nextBtn" class="flex items-center space-x-2 px-3 py-0.5 rounded hover:bg-black/10">
+              <span>Selanjutnya</span>
+              <img src="/public/Polygon 2.svg" alt="Next" class="w-3 h-3" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const totalPages = 18;
+    let currentPage = 4;
+    const pageIndicator = document.getElementById('pageIndicator');
+    const reader = document.getElementById('readerContainer');
+    const nextBtn = document.getElementById('nextBtn');
+    function updatePage(delta) {
+      const next = Math.min(totalPages, Math.max(1, currentPage + delta));
+      if (next === currentPage) return;
+      currentPage = next;
+      pageIndicator.textContent = `${currentPage}/${totalPages}`;
+      reader.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    if (nextBtn) nextBtn.addEventListener('click', () => { window.location.href = "/Bab 1.html"; });
+  </script>
+  <script>
+    // Floating toolbar highlight for Daftar Isi page
+    (function () {
+      const intro = document.getElementById('daftarIsiTextRoot');
+      const toolbar = document.getElementById('selectionToolbarDI');
+      const btnHighlight = document.getElementById('tbHighlightDI');
+      const btnClear = document.getElementById('tbClearDI');
+      const btnSearch = document.getElementById('tbSearchDI');
+      const btnNote = document.getElementById('tbNoteDI');
+      const footerHighlightBtn = document.getElementById('highlightBtn');
+      if (!intro || !toolbar) return;
+
+      function applyHighlight() {
+        const selection = window.getSelection();
+        if (!selection || selection.isCollapsed) return;
+        const range = selection.getRangeAt(0);
+        const containerNode = range.commonAncestorContainer;
+        if (!intro.contains(containerNode)) return;
+        const span = document.createElement('span');
+        span.style.backgroundColor = 'yellow';
+        span.style.padding = '0 2px';
+        span.style.borderRadius = '2px';
+        span.className = 'text-highlight';
+        const contents = range.extractContents();
+        span.appendChild(contents);
+        range.insertNode(span);
+        selection.removeAllRanges();
+      }
+
+      function unwrap(node) {
+        const parent = node.parentNode;
+        if (!parent) return;
+        while (node.firstChild) parent.insertBefore(node.firstChild, node);
+        parent.removeChild(node);
+      }
+      function removeHighlights() {
+        const selection = window.getSelection();
+        const spans = Array.from(intro.querySelectorAll('.text-highlight'));
+        if (!selection || selection.isCollapsed) {
+          spans.forEach(unwrap);
+          return;
+        }
+        const range = selection.getRangeAt(0);
+        spans.forEach(function (s) {
+          try { if (range.intersectsNode(s)) unwrap(s); }
+          catch (e) { unwrap(s); }
+        });
+        selection.removeAllRanges();
+      }
+
+      function ensureInBody() {
+        // Toolbar sudah di body, tidak perlu dipindahkan
+      }
+      function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+      function getSelectionRect() {
+        const sel = window.getSelection();
+        if (!sel || sel.rangeCount === 0) return null;
+        const range = sel.getRangeAt(0).cloneRange();
+        if (range.collapsed) return null;
+        const rects = range.getClientRects();
+        if (!rects || rects.length === 0) return null;
+        return rects[rects.length - 1];
+      }
+      function showToolbar() {
+        const rect = getSelectionRect();
+        if (!rect) { hideToolbar(); return; }
+        ensureInBody();
+        const offset = 8;
+        // Show to measure size
+        toolbar.classList.remove('hidden');
+        toolbar.style.display = 'flex';
+        toolbar.style.visibility = 'hidden';
+        // Center horizontally to selection
+        const desiredLeft = rect.left + (rect.width / 2) - (toolbar.offsetWidth / 2);
+        let top = rect.top - toolbar.offsetHeight - offset; // prefer above
+        // If not enough space above, place below
+        if (top < 8) top = rect.bottom + offset;
+        const left = clamp(desiredLeft, 8, window.innerWidth - toolbar.offsetWidth - 8);
+        toolbar.style.left = left + 'px';
+        toolbar.style.top = top + 'px';
+        toolbar.style.visibility = 'visible';
+      }
+      function hideToolbar() {
+        toolbar.classList.add('hidden');
+        toolbar.style.display = 'none';
+      }
+      document.addEventListener('selectionchange', function () {
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed) { hideToolbar(); return; }
+        const anchorEl = sel.anchorNode && sel.anchorNode.nodeType === 3 ? sel.anchorNode.parentElement : sel.anchorNode;
+        if (anchorEl && intro.contains(anchorEl)) showToolbar();
+        else hideToolbar();
+      });
+      document.addEventListener('scroll', function () {
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed) { hideToolbar(); return; }
+        showToolbar();
+      }, true);
+      document.addEventListener('mousedown', function (e) {
+        if (toolbar.contains(e.target)) return;
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed) hideToolbar();
+      }, true);
+
+      if (btnHighlight) btnHighlight.addEventListener('click', function (e) { e.preventDefault(); applyHighlight(); hideToolbar(); });
+      if (btnClear) btnClear.addEventListener('click', function (e) { e.preventDefault(); removeHighlights(); hideToolbar(); });
+      if (btnSearch) btnSearch.addEventListener('click', function (e) { e.preventDefault(); const sel = window.getSelection(); if (sel && !sel.isCollapsed) { const q = sel.toString(); window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank'); hideToolbar(); } });
+      if (btnNote) btnNote.addEventListener('click', function (e) { e.preventDefault(); alert('Fitur catatan akan ditambahkan.'); hideToolbar(); });
+      if (footerHighlightBtn) footerHighlightBtn.addEventListener('click', function (e) { e.preventDefault(); applyHighlight(); });
+    })();
+  </script>
+</body>
+
+</html>
