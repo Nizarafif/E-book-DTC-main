@@ -214,9 +214,9 @@
         // scroll content to top
         reader.scrollTo({ top: 0, behavior: "smooth" });
         // If ada sumber gambar halaman per page, ganti di sini
-        // document.getElementById('pageImage').src = `/public/pages/page-${currentPage}.svg`;
+        // document.getElementById('pageImage').src = `public/pages/page-${currentPage}.svg`;
       }
-      if (nextBtn) nextBtn.addEventListener("click", () => { window.location.href = "/pengantar.html"; });
+      if (nextBtn) nextBtn.addEventListener("click", () => { window.location.href = "pengantar.html"; });
       if (prevBtn) prevBtn.addEventListener("click", () => updatePage(-1));
     </script>
   </body>

@@ -160,17 +160,17 @@
          </div>
         
         <!-- Floating selection toolbar -->
-        <div id="selectionToolbarIB3" class="hidden fixed items-center space-x-1.5 bg-white/95 backdrop-blur-sm border border-black/10 rounded shadow px-2 py-1 z-30">
-          <button id="tbSearchIB3" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Cari">
+        <div id="selectionToolbar" class="hidden fixed items-center space-x-1.5 bg-white/95 backdrop-blur-sm border border-black/10 rounded shadow px-2 py-1 z-30">
+          <button id="tbSearch" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Cari">
             <img src="public/Buttton_Search_Field.svg" alt="Cari" class="w-4 h-4" />
           </button>
-          <button id="tbNoteIB3" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Catatan">
+          <button id="tbNote" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Catatan">
             <img src="public/Icon Notes.svg" alt="Catatan" class="w-4 h-4" />
           </button>
-          <button id="tbHighlightIB3" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Highlight">
+          <button id="tbHighlight" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Highlight">
             <img src="public/Icon Highlight.svg" alt="Highlight" class="w-4 h-4" />
           </button>
-          <button id="tbClearIB3" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Hapus Sorotan">
+          <button id="tbClear" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Hapus Sorotan">
             <img src="public/out.svg" alt="Hapus" class="w-4 h-4" />
           </button>
         </div>
@@ -245,11 +245,11 @@
     // Floating toolbar highlight for Isi Buku 3 page
     (function(){
       const intro = document.getElementById('isiBuku3TextRoot');
-      const toolbar = document.getElementById('selectionToolbarIB3');
-      const btnHighlight = document.getElementById('tbHighlightIB3');
-      const btnClear = document.getElementById('tbClearIB3');
-      const btnSearch = document.getElementById('tbSearchIB3');
-      const btnNote = document.getElementById('tbNoteIB3');
+      const toolbar = document.getElementById('selectionToolbar');
+      const btnHighlight = document.getElementById('tbHighlight');
+      const btnClear = document.getElementById('tbClear');
+      const btnSearch = document.getElementById('tbSearch');
+      const btnNote = document.getElementById('tbNote');
       const footerHighlightBtn = document.getElementById('highlightBtn');
       if (!intro || !toolbar) return;
 
@@ -275,38 +275,24 @@
         const spans = intro.querySelectorAll('span[style*="background-color: yellow"]');
         spans.forEach(unwrap);
       }
-      function ensureInBody(){
-        // Toolbar sudah di body, tidak perlu dipindahkan
-      }
-      function clamp(value, min, max){ return Math.max(min, Math.min(max, value)); }
-      function getSelectionRect(){
-        const sel = window.getSelection();
-        if (!sel || sel.rangeCount === 0) return null;
-        const range = sel.getRangeAt(0).cloneRange();
-        if (range.collapsed) return null;
-        const rects = range.getClientRects();
-        if (!rects || rects.length === 0) return null;
-        return rects[rects.length - 1];
-      }
-      function showToolbar(){
-        const rect = getSelectionRect();
-        if (!rect){ hideToolbar(); return; }
-        ensureInBody();
-        const offset = 8;
-        // Show to measure size
-        toolbar.classList.remove('hidden');
-        toolbar.style.display = 'flex';
-        toolbar.style.visibility = 'hidden';
-        // Center horizontally to selection
-        const desiredLeft = rect.left + (rect.width / 2) - (toolbar.offsetWidth / 2);
-        let top = rect.top - toolbar.offsetHeight - offset; // prefer above
-        // If not enough space above, place below
-        if (top < 8) top = rect.bottom + offset;
-        const left = clamp(desiredLeft, 8, window.innerWidth - toolbar.offsetWidth - 8);
-        toolbar.style.left = left + 'px';
-        toolbar.style.top = top + 'px';
-        toolbar.style.visibility = 'visible';
-      }
+        function getSelectionRect(){
+          const sel = window.getSelection();
+          if (!sel || sel.rangeCount === 0) return null;
+          const range = sel.getRangeAt(0).cloneRange();
+          if (range.collapsed) return null;
+          const rects = range.getClientRects();
+          if (!rects || rects.length === 0) return null;
+          return rects[rects.length - 1];
+        }
+        function showToolbar(){
+          const rect = getSelectionRect();
+          if (!rect){ hideToolbar(); return; }
+          const offsetY = 8;
+          toolbar.style.left = Math.max(8, rect.left + window.scrollX) + 'px';
+          toolbar.style.top = rect.bottom + window.scrollY + offsetY + 'px';
+          toolbar.classList.remove('hidden');
+          toolbar.style.display = 'flex';
+        }
       function hideToolbar(){
         toolbar.classList.add('hidden');
         toolbar.style.display = 'none';
@@ -323,11 +309,11 @@
         if (!sel || sel.isCollapsed) { hideToolbar(); return; }
         showToolbar();
       }, true);
-      document.addEventListener('mousedown', function(e){
-        if (toolbar.contains(e.target)) return;
-        const sel = window.getSelection();
-        if (!sel || sel.isCollapsed) hideToolbar();
-      }, true);
+        document.addEventListener('click', function(e){
+          if (toolbar.contains(e.target)) return;
+          const sel = window.getSelection();
+          if (!sel || sel.isCollapsed) hideToolbar();
+        });
 
       if (btnHighlight) btnHighlight.addEventListener('click', function(e){ e.preventDefault(); applyHighlight(); hideToolbar(); });
       if (btnClear) btnClear.addEventListener('click', function(e){ e.preventDefault(); removeHighlights(); hideToolbar(); });

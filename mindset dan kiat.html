@@ -95,8 +95,8 @@
             <!-- Overlay teks untuk poin 3 -->
             <div class="absolute z-10 left-[130px] top-[420px] max-w-[520px] pr-4 text-[#113939] leading-relaxed text-[13px]" style="text-align: justify;">
               <p class="mb-0"><span class="font-semibold">Teori & praktek wajib balance,</span> kalau teori doang tanpa</p>
-              <p class="mb-0">take action juga ngga akan mudah kamu ingat, kalau praktek tanpa</p>
-              <p class="mb-0">kalau praktek tanpa teori juga bikin capek karena kamu ngga</p>
+              <p class="mb-0">take action juga ngga akan mudah kamu ingat, kalau</p>
+              <p class="mb-0">praktek tanpa teori juga bikin capek karena kamu ngga</p>
               <p class="mb-0">tahu 'mapsnya', pahami terus lakukan</p>
             </div>
             <!-- Overlay teks untuk poin 4 -->
@@ -116,17 +116,17 @@
         </div>
         
         <!-- Floating selection toolbar -->
-        <div id="selectionToolbarMS" class="hidden fixed items-center space-x-1.5 bg-white/95 backdrop-blur-sm border border-black/10 rounded shadow px-2 py-1 z-30">
-          <button id="tbSearchMS" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Cari">
+        <div id="selectionToolbar" class="hidden fixed items-center space-x-1.5 bg-white/95 backdrop-blur-sm border border-black/10 rounded shadow px-2 py-1 z-30">
+          <button id="tbSearch" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Cari">
             <img src="public/Buttton_Search_Field.svg" alt="Cari" class="w-4 h-4" />
           </button>
-          <button id="tbNoteMS" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Catatan">
+          <button id="tbNote" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Catatan">
             <img src="public/Icon Notes.svg" alt="Catatan" class="w-4 h-4" />
           </button>
-          <button id="tbHighlightMS" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Highlight">
+          <button id="tbHighlight" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Highlight">
             <img src="public/Icon Highlight.svg" alt="Highlight" class="w-4 h-4" />
           </button>
-          <button id="tbClearMS" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Hapus Sorotan">
+          <button id="tbClear" class="w-7 h-7 flex items-center justify-center rounded hover:bg-black/10" title="Hapus Sorotan">
             <img src="public/out.svg" alt="Hapus" class="w-4 h-4" />
           </button>
         </div>
@@ -177,17 +177,17 @@
         pageIndicator.textContent = `${currentPage}/${totalPages}`;
         reader.scrollTo({ top: 0, behavior: 'smooth' });
       }
-      if (nextBtn) nextBtn.addEventListener('click', () => { window.location.href = "/Daftar isi.html"; });
+      if (nextBtn) nextBtn.addEventListener('click', () => { window.location.href = "Daftar isi.html"; });
     </script>
     <script>
       // Floating toolbar highlight for Mindset & Kiat page
       (function(){
         const intro = document.getElementById('mindsetTextRoot');
-        const toolbar = document.getElementById('selectionToolbarMS');
-        const btnHighlight = document.getElementById('tbHighlightMS');
-        const btnClear = document.getElementById('tbClearMS');
-        const btnSearch = document.getElementById('tbSearchMS');
-        const btnNote = document.getElementById('tbNoteMS');
+        const toolbar = document.getElementById('selectionToolbar');
+        const btnHighlight = document.getElementById('tbHighlight');
+        const btnClear = document.getElementById('tbClear');
+        const btnSearch = document.getElementById('tbSearch');
+        const btnNote = document.getElementById('tbNote');
         const footerHighlightBtn = document.getElementById('highlightBtn');
         if (!intro || !toolbar) return;
 
@@ -238,28 +238,14 @@
           if (!rects || rects.length === 0) return null;
           return rects[rects.length - 1];
         }
-        function ensureInBody(){
-          // Toolbar sudah di body, tidak perlu dipindahkan
-        }
-        function clamp(value, min, max){ return Math.max(min, Math.min(max, value)); }
         function showToolbar(){
           const rect = getSelectionRect();
           if (!rect){ hideToolbar(); return; }
-          ensureInBody();
-          const offset = 8;
-          // Show to measure size
+          const offsetY = 8;
+          toolbar.style.left = Math.max(8, rect.left + window.scrollX) + 'px';
+          toolbar.style.top = rect.bottom + window.scrollY + offsetY + 'px';
           toolbar.classList.remove('hidden');
           toolbar.style.display = 'flex';
-          toolbar.style.visibility = 'hidden';
-          // Center horizontally to selection
-          const desiredLeft = rect.left + (rect.width / 2) - (toolbar.offsetWidth / 2);
-          let top = rect.top - toolbar.offsetHeight - offset; // prefer above
-          // If not enough space above, place below
-          if (top < 8) top = rect.bottom + offset;
-          const left = clamp(desiredLeft, 8, window.innerWidth - toolbar.offsetWidth - 8);
-          toolbar.style.left = left + 'px';
-          toolbar.style.top = top + 'px';
-          toolbar.style.visibility = 'visible';
         }
         function hideToolbar(){
           toolbar.classList.add('hidden');
@@ -277,11 +263,11 @@
           if (!sel || sel.isCollapsed) { hideToolbar(); return; }
           showToolbar();
         }, true);
-        document.addEventListener('mousedown', function(e){
+        document.addEventListener('click', function(e){
           if (toolbar.contains(e.target)) return;
           const sel = window.getSelection();
           if (!sel || sel.isCollapsed) hideToolbar();
-        }, true);
+        });
 
         if (btnHighlight) btnHighlight.addEventListener('click', function(e){ e.preventDefault(); applyHighlight(); hideToolbar(); });
         if (btnClear) btnClear.addEventListener('click', function(e){ e.preventDefault(); removeHighlights(); hideToolbar(); });
